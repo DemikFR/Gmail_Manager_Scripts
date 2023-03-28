@@ -52,7 +52,7 @@ Noticing that my Gmail inbox had a lot of things, some of which were not even re
 After seeing some articles, I had seen that I could do it through Python and its Imaplib library, which serves precisely to connect to the Gmail API. Since I'm studying Python and there was this need to use it, why not?
 
 I separated 3 Jupyter Notebook scripts (You need to run them in this order):
-* <strong>get_email_data</strong>: This script is for connecting and fetching email data such as sender, subject and message. Additionally, it treats this data and places it in a CSV file. 
+* <strong>get_email_data</strong>: This script is for connecting and fetching email data such as sender and subject. Additionally, it treats this data and places it in a CSV file. 
 * <strong>analysis_my_gmail</strong>: As the name implies, it will do a little analysis with some graphs for interpretation.
 * <strong>delete_emails</strong>: Here, the e-mails will be deleted according to the selected senders.
 
@@ -72,7 +72,7 @@ This project, in addition to being written in Python, used some of its libraries
 * [![Matplotlib][Matplotlib.py]][Matplotlib-url]
 * [![Pandas][Pandas.py]][Pandas-url]
 
-In addition to these you will have to use the wordcloud <b>lib</b>, <b>yaml</b> <b>imaplib</b>, <b>email</b> and <b>concurrent.futures</b>
+In addition to these you will have to use the libs <b>wordcloud</b>, <b>yaml</b> <b>imaplib</b>, <b>email</b> and <b>concurrent.futures</b>
 
 
 
@@ -110,11 +110,16 @@ Fisrt of all you will need to activate the IMAP and create your APP password:
 
 ### Installation
 
-1. Clone the repo
+1. In your Python, install the libraries used in the scripts
+   ```py
+   pip install wordcloud yaml imaplib email concurrent.futures matplotlib pandas
+   ```
+
+2. Clone the repo
    ```sh
    git clone https://github.com/DemikFR/Gmail_Manager_Scripts.git
    ```
-2. Open the 'credentials.yaml' to enter your previously generated email and password
+3. Open the 'credentials.yaml' to enter your previously generated email and password
    ```yaml
     user : "Your email"
     password : "Your password"
@@ -124,17 +129,74 @@ Now, you will be able to use this project to verify your emails on a large scale
 
 
 
-<!-- USAGE EXAMPLES -->
+<!-- USAGE -->
 ## Usage
 
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
+After you complete the installation steps, you will be able to run the scripts.
 
-_For more examples, please refer to the [Documentation](https://example.com)_
+### get_email_data script
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+You will get the email credentials placed in the YAML file.
+   ```py
+    # Get the Credentials
+    
+    my_credentials = yaml.load(credentials, Loader = yaml.FullLoader)
+    user, password = my_credentials['user'], my_credentials['password']
+   ```
+   
+With the credentials, you can connect Python with Gmail
+   ```py
+    # Connect your Gmail
+    
+    imap_url = 'imap.gmail.com'
+    my_email = imaplib.IMAP4_SSL(imap_url)
+    my_email.login(user, password)
+   ```
+ 
+Now, you will need to know and get the email ids, note that you can filter the search by sender, subjects and others. It will be mentioned in more detail in the 3rd script.
+   ```py
+    emails = my_email.search(None, 'ALL')
+   ```
 
+Finally it is possible to fetch the emails from the IDs. In the code below it will fetch the date, sender (name and email address) and subject. Right after the search is done, each e-mail will be added to a list and then placed in a Pandas dataframe.
+   ```py
+    #fetch e-mails
+    
+    def fetch(id):
+      with concurrent.futures.ThreadPoolExecutor() as executor:
+        data = executor.submit(my_email.fetch, str(id), '(RFC822)') # Get the message informations (Message, emails, ids, if errors, etc...)
+        return data.result()[1][0][1] # Return only message and e-mail
+        
+    # Get the message and the email informations
 
+    emails_list = []
+    for i in emails_ids:
+        msg = email.message_from_string(str(fetch(i),'ISO-8859-1')) # Transform the e-mails 
+        emails_list.append({'Date': msg['Date'], 'From': msg['From'], 'Subject': msg['Subject']})
+        
+    # Put email data in a dataframe
+    
+    df = pd.DataFrame(emails_list, columns=['Date', 'From', 'Subject'])
+   ```
+   
+Before leaving the data ready for use, it was necessary to clean the data due to the encoding, in this case, the e-mails are extracted as 'ISO-8859-1', however, I have several e-mails in Portuguese, so it was necessary to convert to UTF-8. 
 
+In addition, to carry out the analysis of the emails, I had to create a new column for the email addresses of the senders, as the same comes in a column along with the name. To do so, it was necessary to use Python's <code>extract</code> method with a Regex expression, as shown below:
+   ```py
+    # Take the email address and put it in a new column
+   
+    df1['Email'] = df1['From'].str.extract(r'<(.+)>')
+    
+    # Delete the e-mail from the name column
+    
+    df1['Sender'] = df1['From'].str.extract(r'(?:"|^)(.*?)(?:"|\s)(?:\s*<|$)')
+   ```
+   
+With the data ready, you can save a .CSV file for later use in other scripts.
+   ```py
+    df1.to_csv('Emails_Dataset.csv', sep=';', encoding='utf-8')
+   ```
+   
 <!-- ROADMAP -->
 ## Roadmap
 
