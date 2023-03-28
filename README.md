@@ -72,44 +72,55 @@ This project, in addition to being written in Python, used some of its libraries
 * [![Matplotlib][Matplotlib.py]][Matplotlib-url]
 * [![Pandas][Pandas.py]][Pandas-url]
 
-
-
 In addition to these you will have to use the wordcloud <b>lib</b>, <b>yaml</b> <b>imaplib</b>, <b>email</b> and <b>concurrent.futures</b>
+
+
 
 
 <!-- GETTING STARTED -->
 ## Getting Started
 
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
+In addition to installing the libraries as per the prerequisites subtopic below, you will need to enable IMAP in your Gmail and generate an app password, all shown below.
+
+
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+Fisrt of all you will need to activate the IMAP and create your APP password:
+
+1. Settings
+
+2. See all settings
+
+3. Fowarding and POP/IMAP
+
+4. At the last, enable the IMAP
+
+[![IMAP][IMAP-Print]]
+
+5. Access [Google account](https://myaccount.google.com/)
+
+6. Security
+
+7. App password
+
+8. Save the password in a safe place
+
+
 
 ### Installation
 
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+1. Clone the repo
    ```sh
-   git clone https://github.com/your_username_/Project-Name.git
+   git clone https://github.com/DemikFR/Gmail_Manager_Scripts.git
    ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
+2. Open the 'credentials.yaml' to enter your previously generated email and password
+   ```yaml
+    user : "Your email"
+    password : "Your password"
    ```
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+Now, you will be able to use this project to verify your emails on a large scale, in the next topic you will be able to understand how the scripts work.
 
 
 
@@ -175,7 +186,6 @@ Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.c
 
 Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
@@ -193,18 +203,14 @@ Use this space to list resources you find helpful and would like to give credit 
 * [Font Awesome](https://fontawesome.com)
 * [React Icons](https://react-icons.github.io/react-icons/search)
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [Gmail.com]: https://img.shields.io/badge/Gmail-D14836?style=for-the-badge&logo=gmail&logoColor=white
 [Gmail-url]: https://www.google.com/intl/pt-BR/gmail/about/
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
+[IMAP-Print]: https://user-images.githubusercontent.com/102700735/228278183-25dff5f1-a7cf-4def-9c9d-5fe693c2e762.png
+[Google.account]: https://myaccount.google.com/
 [Python.py]: https://img.shields.io/badge/python-3670A0?style=for-the-badge&logo=python&logoColor=ffdd54
 [Python-url]: https://www.python.org/
 [license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
