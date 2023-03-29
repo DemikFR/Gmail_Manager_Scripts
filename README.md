@@ -38,6 +38,7 @@
       <ul>
         <li><a href="#get_email_data">get_email_data</a></li>
         <li><a href="#analysis_my_gmail">Analysis_my_Gmail</a></li>
+        <li><a href="#delete_emails">delete_emails</a></li>
       </ul>
     </li>
     <li><a href="#roadmap">Roadmap</a></li>
@@ -231,14 +232,58 @@ Four questions were asked to carry out the analysis:
   ``` 
   Note that the months were numeric and were converted to alphabetic characters directly in the database.
   
- 4. What are the words that appear the most in emails?
+4. What are the words that appear the most in emails?
   To perform the word cloud, all the Subject field records were concatenated to a string, in addition to some having to convert the encoding.
   ```py
    Subject = df['Subject'].str.cat(sep=' ')
    Subject = Subject.encode('utf-8').replace(b'\xe2\x80\x8a', b'').replace(b'\r\n', b'').decode('utf-8')
   ``` 
   
- After the metrics were made, the graphs were made, which will be discussed in a later topic.
+After the metrics were made, the graphs were made, which will be discussed in a later topic.
+ 
+### delete_emails
+ 
+This last script will look for the e-mails following a predefined pattern and delete them.
+ 
+For this, you must connect to the email again and use the <code>search</code> command of Imap, it is there where you can define which emails will be deleted.
+ 
+In my case, I created a list with the name of some senders, such as social networks and some stores and with that, I did a search for your email address in the dataframe created in script 1, below you can see how it was done.
+```py
+ # Create the list 
+ 
+ senders = ['Instagram', 'Twitter', 'Facebook', 'LinkedIn', 'TikTok', 'Pinterest', 'Reddit', 'YouTube',
+               'Telegram', 'Discord', 'Flickr', 'Twitch', 'Medium', 'Quora', 'Dafiti']
+               
+ # Creates a Regex expression to search the dataframe
+ 
+ senders_regex = '|'.join(senders)
+ senders_regex
+ 
+ # Search the e-mail adress
+ 
+ df_media = df[df['Sender'].str.contains(senders_regex, regex=True)]['Email'].drop_duplicates()
+ df_media
+``` 
+With the e-mail addresses to be deleted, I was able to carry out the search through a Python code that runs through the series created by searching for each sender.
+```py
+  emails_ids = []
+  for i in df_media:
+    emails = my_email.search(None, f'FROM "{i}"')
+    emails_ids.extend(emails[1][0].decode().split())
+``` 
+
+Note that through the <code>search</code> command you can use different ways to find the emails to delete, in my case, I used the 'From' criterion which is precisely the email address, in others cases, you could, for example, put a pattern that if the message had "Announcement" or "Offer" it would look for it, so using 'From' would be 'Text.' 
+
+You can find all the criteria by [clicking here](https://gist.github.com/martinrusev/6121028).
+
+Finally, you will be able to delete these emails.
+```py
+  # Move selected emails to the deleted folder
+  for i in emails_ids:
+    my_email.store(i, '+FLAGS', '\\Deleted')
+  # Permanently removing deleted items from the selected mailbox.
+  my_email.expunge()
+``` 
    
 <!-- ROADMAP -->
 ## Roadmap
