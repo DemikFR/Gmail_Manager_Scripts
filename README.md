@@ -33,7 +33,13 @@
         <li><a href="#installation">Installation</a></li>
       </ul>
     </li>
-    <li><a href="#usage">Usage</a></li>
+    <li>
+      <a href="#usage">Usage</a>
+      <ul>
+        <li><a href="#get_email_data">get_email_data</a></li>
+        <li><a href="#analysis_my_gmail">Analysis_my_Gmail</a></li>
+      </ul>
+    </li>
     <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
@@ -134,7 +140,7 @@ Now, you will be able to use this project to verify your emails on a large scale
 
 After you complete the installation steps, you will be able to run the scripts.
 
-### get_email_data script
+### get_email_data
 
 You will get the email credentials placed in the YAML file.
    ```py
@@ -196,6 +202,43 @@ With the data ready, you can save a .CSV file for later use in other scripts.
    ```py
     df1.to_csv('Emails_Dataset.csv', sep=';', encoding='utf-8')
    ```
+### analysis_my_gmail
+
+In this script, you will be able to generate 4 metrics and a graph for each, so you will have an overview of who and when you receive the emails, in addition to being able to know which are the main words said. 
+
+The analysis itself will be mentioned in the especially analysis topic.
+
+Four questions were asked to carry out the analysis:
+
+1. Who are the senders who send the most emails?
+  Using the Pandas values count and a horizontal bar chart, it was already possible to answer this question.
+  ```py
+   top_10_senders = df['Sender'].value_counts(sort=True).head(10).to_frame()
+  ```
+ 
+2. What were the years that the most email arrived?
+  This question has been answered grouping by year and counting the years values.
+  ```py
+   year_values = df.groupby(df['Date'].dt.year, group_keys=False)['Date'].apply(lambda x: x.count()).to_frame()
+  ``` 
+  
+  
+3. What were the months that the most email arrived?
+  This question has been answered grouping by months and counting the months values.
+  ```py
+   month_values = df.groupby(df['Date'].dt.month, group_keys=False)['Date'].apply(lambda x: x.count()).to_frame()
+   month_values.index = pd.to_datetime(month_values.index, format='%m').strftime('%b') #Tranform month numbers
+  ``` 
+  Note that the months were numeric and were converted to alphabetic characters directly in the database.
+  
+ 4. What are the words that appear the most in emails?
+  To perform the word cloud, all the Subject field records were concatenated to a string, in addition to some having to convert the encoding.
+  ```py
+   Subject = df['Subject'].str.cat(sep=' ')
+   Subject = Subject.encode('utf-8').replace(b'\xe2\x80\x8a', b'').replace(b'\r\n', b'').decode('utf-8')
+  ``` 
+  
+ After the metrics were made, the graphs were made, which will be discussed in a later topic.
    
 <!-- ROADMAP -->
 ## Roadmap
