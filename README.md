@@ -36,16 +36,21 @@
     <li>
       <a href="#usage">Usage</a>
       <ul>
-        <li><a href="#get_email_data">get_email_data</a></li>
-        <li><a href="#analysis_my_gmail">Analysis_my_Gmail</a></li>
-        <li><a href="#delete_emails">delete_emails</a></li>
+        <li><a href="#get_email_data-script">get_email_data Script</a></li>
+        <li><a href="#analysis_my_gmail-script">Analysis_my_Gmail Script</a></li>
+        <li><a href="#delete_emails-script">delete_emails Script</a></li>
       </ul>
     </li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
+    <li>
+      <a href="#analysis-issues">Analysis Issues</a>
+      <ul>
+        <li><a href="#bar-graph">Bar Graph</a></li>
+        <li><a href="#line-graphs">Line Graph</a></li>
+        <li><a href="#word-cloud">Word Cloud</a></li>
+      </ul>  
+    </li>
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
   </ol>
 </details>
 
@@ -141,7 +146,7 @@ Now, you will be able to use this project to verify your emails on a large scale
 
 After you complete the installation steps, you will be able to run the scripts.
 
-### get_email_data
+### get_email_data Script
 
 You will get the email credentials placed in the YAML file.
    ```py
@@ -203,7 +208,7 @@ With the data ready, you can save a .CSV file for later use in other scripts.
    ```py
     df1.to_csv('Emails_Dataset.csv', sep=';', encoding='utf-8')
    ```
-### analysis_my_gmail
+### analysis_my_gmail Script
 
 In this script, you will be able to generate 4 metrics and a graph for each, so you will have an overview of who and when you receive the emails, in addition to being able to know which are the main words said. 
 
@@ -239,9 +244,9 @@ Four questions were asked to carry out the analysis:
    Subject = Subject.encode('utf-8').replace(b'\xe2\x80\x8a', b'').replace(b'\r\n', b'').decode('utf-8')
   ``` 
   
-After the metrics were made, the graphs were made, which will be discussed in a later topic.
+After collecting the metrics, they were used to create graphs which will be discussed in a later topic.
  
-### delete_emails
+### delete_emails Script
  
 This last script will look for the e-mails following a predefined pattern and delete them.
  
@@ -285,38 +290,48 @@ Finally, you will be able to delete these emails.
   my_email.expunge()
 ``` 
    
-<!-- ROADMAP -->
-## Roadmap
+<!-- Analysis Issues -->
+## Analysis Issues
 
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
-
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+With the analysis of my emails, I was able to identify some of them, I will talk about each insight according to the graphs.
 
 
+## Bar Graph
 
-<!-- CONTRIBUTING -->
-## Contributing
+This chart served to list the top 10 email senders in ascending order.
 
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
+![image](https://user-images.githubusercontent.com/102700735/228703496-acd5b545-c392-4a7e-92e8-f398b5391f33.png)
 
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
+As shown in the graph, the biggest senders are the only two social networks I use, except for Reddit, which hardly sends emails to its users. After I did a quick search, I noticed that most social networks send mass emails to users that serve to show network updates.
 
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+Just with the top 10, it was noted that most emails are about promotions and sales of e-commerce or service companies, such as internet (Tim and Vivo).
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+Others that appeared were for employment, in this case Catho ((which is as "Vagas de Emprego na Catho" which means "Employment Vacancies in Catho").
+
+Others that appear were employment, case by case (which is like "Vacancies for Employment in Catho" which means "Employment Vacancies in Catho") and my bank Nubank, which sends information about invoices, investments, changes in rates, etc.
+
+The only ones on this list that I won't pay for are Nubank's e-mails, as there are often important things, unless a text pattern is used in subjects and messages.
+
+
+## Line Graphs
+
+Line charts served to measure the amount of e-mail received over time, in this case year and month.
+
+![image](https://user-images.githubusercontent.com/102700735/228705296-dcb451e4-b0b3-4b33-b3f2-e21006fa47a4.png)
+
+During the year, you could see an exponential increase in the emails received, because as the years go by, the more I subscribe and use services that will have my email address, I rarely unsubscribe from the lists. 
+
+Note that this year (2023), that number dropped dramatically, as only three months passed, while the others were 12.
+
+![image](https://user-images.githubusercontent.com/102700735/228705430-c07d0ca9-cad5-43da-94b7-de8350276088.png)
+
+Regarding the months, it is possible to notice that in November there is a peak far from the other months, because that is the moment when there are the biggest sales of the year, in this case Black Friday and the end of year festivities.
+
+## Word Cloud
+
+With the word cloud, I could see that although e-commerce and social media emails are the biggest senders, they don't use repeated words, while job sites like Freelance use the same email template, making these texts more frequent.
+
+![image](https://user-images.githubusercontent.com/102700735/228707172-451e39f8-77bf-4957-8626-adb7ec89a96d.png)
 
 
 
@@ -325,33 +340,13 @@ Don't forget to give the project a star! Thanks again!
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-
 
 <!-- CONTACT -->
 ## Contact
 
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
+Demik Freitas - [Linkedin](https://www.linkedin.com/in/demik-freitas/) - demik.freitast2d18@gmail.com
 
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
-
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
-* [Img Shields](https://shields.io)
-* [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
+Project Link: [https://github.com/DemikFR/Gmail_Manager_Scripts](https://github.com/DemikFR/Gmail_Manager_Scripts)
 
 
 
